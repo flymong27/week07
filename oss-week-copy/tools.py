@@ -35,6 +35,6 @@ def get_movie_audience(date, title):
         for movie in movies[:]:
                 if movie['movieNm'] == title:
                         return "-> " + format(int(movie['audiCnt']), ",") + '명'
-        return "그런건 없다!"
+        return "'" + title + "'" " 은(는) " + date + " 순위에 없습니다." 
 
 
