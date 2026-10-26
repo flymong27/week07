@@ -12,8 +12,29 @@ def get_boxoffice_rank_1(date):
     
     
     """
+    # KOBIS API에 보낼 쿼리: 인증키(key)와 조회 날짜(targetDt)
     params = {"key" : API_KEY, "targetDt" : date}
+    # 일별 박스오피스 API를 호출한다 (최대 10초 대기)
     response = requests.get(BASE_URL, params = params, timeout = 10)
+    # 응답 본문을 JSON(딕셔너리)으로 변환한다
     data = response.json()
+    # 그날의 일별 박스오피스 영화 목록을 꺼낸다
     movies = data['boxOfficeResult']['dailyBoxOfficeList']
+    # 목록 첫 번째(1위) 영화의 제목을 반환한다
     return movies[0]['movieNm']
+
+def get_movie_audience(date, title):
+        # KOBIS API에 보낼 쿼리: 인증키(key)와 조회 날짜(targetDt)
+        params = {"key" : API_KEY, "targetDt" : date}
+        # 일별 박스오피스 API를 호출한다 (최대 10초 대기)
+        response = requests.get(BASE_URL, params = params, timeout = 10)
+        # 응답 본문을 JSON(딕셔너리)으로 변환한다
+        data = response.json()
+        movies = data['boxOfficeResult']['dailyBoxOfficeList']
+
+        for movie in movies[:]:
+                if movie['movieNm'] == title:
+                        return "-> " + format(int(movie['audiCnt']), ",") + '명'
+        return "'" + title + "'" " 은(는) " + date + " 순위에 없습니다." 
+
+
